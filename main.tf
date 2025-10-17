@@ -208,10 +208,10 @@ resource "local_file" "kubeconfig" {
   filename = "kubeconfig_${local.cluster_name}"
 }
 
-# Ключ сервисного аккаунта для аутентификации
-data "yandex_iam_service_account_key" "k8s-key" {
-  service_account_id = yandex_iam_service_account.k8s-cluster.id
-}
+## # Ключ сервисного аккаунта для аутентификации
+## data "yandex_iam_service_account_key" "k8s-key" {
+##   service_account_id = yandex_iam_service_account.k8s-cluster.id
+## }
 
 # Шаблон kubeconfig
 # templates/kubeconfig.tpl
