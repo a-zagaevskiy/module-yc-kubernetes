@@ -29,9 +29,9 @@ resource "yandex_iam_service_account" "k8s-cluster" {
 
 # Роль редактора для сервисного аккаунта кластера
 resource "yandex_resourcemanager_folder_iam_member" "k8s-cluster-editor" {
-  # folder_id = var.yandex_folder_id
-  role   = "editor"
-  member = "serviceAccount:${yandex_iam_service_account.k8s-cluster.id}"
+  folder_id = var.yandex_folder_id
+  role      = "editor"
+  member    = "serviceAccount:${yandex_iam_service_account.k8s-cluster.id}"
 }
 
 # Сервисный аккаунт для worker nodes
@@ -42,27 +42,27 @@ resource "yandex_iam_service_account" "k8s-nodes" {
 
 # Роли для сервисного аккаунта нод
 resource "yandex_resourcemanager_folder_iam_member" "k8s-nodes-images-puller" {
-  # folder_id = var.yandex_folder_id
-  role   = "container-registry.images.puller"
-  member = "serviceAccount:${yandex_iam_service_account.k8s-nodes.id}"
+  folder_id = var.yandex_folder_id
+  role      = "container-registry.images.puller"
+  member    = "serviceAccount:${yandex_iam_service_account.k8s-nodes.id}"
 }
 
 resource "yandex_resourcemanager_folder_iam_member" "k8s-nodes-metrics-writer" {
-  # folder_id = var.yandex_folder_id
-  role   = "monitoring.metricsWriter"
-  member = "serviceAccount:${yandex_iam_service_account.k8s-nodes.id}"
+  folder_id = var.yandex_folder_id
+  role      = "monitoring.metricsWriter"
+  member    = "serviceAccount:${yandex_iam_service_account.k8s-nodes.id}"
 }
 
 resource "yandex_resourcemanager_folder_iam_member" "k8s-nodes-load-balancer-admin" {
-  # folder_id = var.yandex_folder_id
-  role   = "load-balancer.admin"
-  member = "serviceAccount:${yandex_iam_service_account.k8s-nodes.id}"
+  folder_id = var.yandex_folder_id
+  role      = "load-balancer.admin"
+  member    = "serviceAccount:${yandex_iam_service_account.k8s-nodes.id}"
 }
 
 resource "yandex_resourcemanager_folder_iam_member" "k8s-nodes-vpc-public-admin" {
-  # folder_id = var.yandex_folder_id
-  role   = "vpc.publicAdmin"
-  member = "serviceAccount:${yandex_iam_service_account.k8s-nodes.id}"
+  folder_id = var.yandex_folder_id
+  role      = "vpc.publicAdmin"
+  member    = "serviceAccount:${yandex_iam_service_account.k8s-nodes.id}"
 }
 
 # Security Group аналог - Network Policy и группы безопасности Yandex Cloud

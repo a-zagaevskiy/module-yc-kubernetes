@@ -3,6 +3,10 @@ variable "yandex_zone" {
   default = "ru-central1-d"
 }
 
+variable "yandex_folder_id" {
+  type = string
+}
+
 variable "env_name" {
   type = string
 }
