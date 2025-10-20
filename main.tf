@@ -137,6 +137,16 @@ resource "yandex_kubernetes_cluster" "ms-up-running" {
   ]
 }
 
+# KMS ключ для шифрования секретов Kubernetes
+resource "yandex_kms_symmetric_key" "k8s-key" {
+  name              = "${local.cluster_name}-kms-key"
+  description       = "KMS key for Kubernetes secrets encryption"
+  default_algorithm = "AES_128"
+  rotation_period   = "8760h" # 1 год
+  
+  # Автоматическое вращение ключа
+}
+
 #
 # Worker Nodes Resources
 #  * Node Group для worker nodes
