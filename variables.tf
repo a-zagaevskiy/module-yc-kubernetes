@@ -28,12 +28,6 @@ variable "cluster_subnet_ids" {
   type = list(string)
 }
 
-variable "k8s_version" {
-  type        = string
-  default     = "1.28"
-  description = "Kubernetes version"
-}
-
 variable "nodegroup_subnet_ids" {
   type = list(string)
 }

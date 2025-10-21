@@ -106,17 +106,12 @@ resource "yandex_kubernetes_cluster" "ms-up-running" {
   node_service_account_id = yandex_iam_service_account.k8s-nodes.id
 
   master {
-    version = var.k8s_version
-    regional {
-      region = var.yandex_zone
+    version = "1.30"
 
-      # Мастер ноды распределяются по подсетям
-      dynamic "location" {
-        for_each = var.cluster_subnet_ids
-        content {
-          subnet_id = location.value
-        }
-      }
+    # TODO: zonal OR regional ???
+    zonal {
+      zone      = var.yandex_zone
+      subnet_id = var.cluster_subnet_ids[0]
     }
 
     public_ip          = true
@@ -142,7 +137,7 @@ resource "yandex_kms_symmetric_key" "k8s-key" {
   description       = "KMS key for Kubernetes secrets encryption"
   default_algorithm = "AES_128"
   rotation_period   = "8760h" # 1 год
-  
+
   # Автоматическое вращение ключа
 }
 
