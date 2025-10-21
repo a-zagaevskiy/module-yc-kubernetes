@@ -7,6 +7,14 @@ variable "yandex_folder_id" {
   type = string
 }
 
+variable "zone_a" {
+  type = string
+}
+
+variable "zone_b" {
+  type = string
+}
+
 variable "env_name" {
   type = string
 }

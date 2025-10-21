@@ -110,7 +110,7 @@ resource "yandex_kubernetes_cluster" "ms-up-running" {
 
     # TODO: zonal OR regional ???
     zonal {
-      zone      = var.yandex_zone
+      zone      = var.zone_a
       subnet_id = var.cluster_subnet_ids[0]
     }
 
@@ -169,7 +169,7 @@ resource "yandex_kubernetes_node_group" "ms-node-group" {
     }
 
     network_interface {
-      subnet_ids         = var.nodegroup_subnet_ids
+      subnet_ids         = [var.nodegroup_subnet_ids[0]]
       security_group_ids = [yandex_vpc_security_group.k8s-cluster.id]
     }
   }
@@ -184,14 +184,11 @@ resource "yandex_kubernetes_node_group" "ms-node-group" {
 
   allocation_policy {
     location {
-      zone = "ru-central1-a"
+      zone = var.zone_a
     }
-    location {
-      zone = "ru-central1-b"
-    }
-    location {
-      zone = "ru-central1-c"
-    }
+    # location {
+    #   zone = var.zone_b
+    # }
   }
 
   maintenance_policy {
