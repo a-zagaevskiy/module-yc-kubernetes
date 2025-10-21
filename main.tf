@@ -49,7 +49,7 @@ resource "yandex_resourcemanager_folder_iam_member" "k8s-nodes-images-puller" {
 
 resource "yandex_resourcemanager_folder_iam_member" "k8s-nodes-metrics-writer" {
   folder_id = var.yandex_folder_id
-  role      = "monitoring.metricsWriter"
+  role      = "monitoring.editor"
   member    = "serviceAccount:${yandex_iam_service_account.k8s-nodes.id}"
 }
 
