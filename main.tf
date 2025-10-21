@@ -115,7 +115,6 @@ resource "yandex_kubernetes_cluster" "ms-up-running" {
         for_each = var.cluster_subnet_ids
         content {
           subnet_id = location.value
-          zone      = yandex_vpc_subnet.subnets[location.key].zone
         }
       }
     }
