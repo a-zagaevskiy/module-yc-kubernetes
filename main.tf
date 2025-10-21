@@ -206,6 +206,12 @@ resource "yandex_kubernetes_node_group" "ms-node-group" {
   }
 }
 
+resource "yandex_iam_service_account_key" "k8s-key" {
+  service_account_id = yandex_iam_service_account.k8s-cluster.id
+  description        = "Static key for Kubernetes cluster"
+  key_algorithm      = "RSA_4096"
+}
+
 # Создание kubeconfig файла
 resource "local_file" "kubeconfig" {
   content = templatefile("${path.module}/templates/kubeconfig.tpl", {
@@ -213,40 +219,7 @@ resource "local_file" "kubeconfig" {
     cluster_name = local.cluster_name
     server       = yandex_kubernetes_cluster.ms-up-running.master[0].external_v4_endpoint
     ca_cert      = yandex_kubernetes_cluster.ms-up-running.master[0].cluster_ca_certificate
-    token        = data.yandex_iam_service_account_key.k8s-key.service_account_key
+    token        = yandex_iam_service_account_key.k8s-key.private_key
   })
-  filename = "kubeconfig_${local.cluster_name}"
+  filename = "kubeconfig"
 }
-
-## # Ключ сервисного аккаунта для аутентификации
-## data "yandex_iam_service_account_key" "k8s-key" {
-##   service_account_id = yandex_iam_service_account.k8s-cluster.id
-## }
-
-# Шаблон kubeconfig
-# templates/kubeconfig.tpl
-/*
-apiVersion: v1
-clusters:
-- cluster:
-    certificate-authority-data: ${ca_cert}
-    server: ${server}
-  name: ${cluster_name}
-contexts:
-- context:
-    cluster: ${cluster_name}
-    user: ${cluster_name}
-  name: ${cluster_name}
-current-context: ${cluster_name}
-kind: Config
-preferences: {}
-users:
-- name: ${cluster_name}
-  user:
-    exec:
-      apiVersion: client.authentication.k8s.io/v1beta1
-      command: yc
-      args:
-      - k8s
-      - create-token
-*/
