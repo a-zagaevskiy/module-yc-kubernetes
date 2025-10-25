@@ -209,7 +209,7 @@ resource "local_file" "kubeconfig" {
     cluster_id   = yandex_kubernetes_cluster.ms-up-running.id
     cluster_name = local.cluster_name
     server       = yandex_kubernetes_cluster.ms-up-running.master[0].external_v4_endpoint
-    ca_cert      = yandex_kubernetes_cluster.ms-up-running.master[0].cluster_ca_certificate
+    ca_cert      = base64encode(yandex_kubernetes_cluster.ms-up-running.master[0].cluster_ca_certificate)
     token        = yandex_iam_service_account_key.k8s-key.private_key
   })
   filename = "kubeconfig"
